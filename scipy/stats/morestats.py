@@ -31,7 +31,7 @@ __all__ = ['mvsdist',
            'boxcox_llf', 'boxcox', 'boxcox_normmax', 'boxcox_normplot',
            'shapiro', 'anderson', 'ansari', 'bartlett', 'levene', 'binom_test',
            'fligner', 'mood', 'wilcoxon', 'median_test',
-           'pdf_fromgamma', 'circmean', 'circvar', 'circstd', 'anderson_ksamp'
+           'pdf_fromgamma', 'circmean', 'circmean2', 'circvar', 'circstd', 'anderson_ksamp'
            ]
 
 
@@ -2701,6 +2701,16 @@ def circmean(samples, high=2*pi, low=0, axis=None):
 
     return res*(high - low)/2.0/pi + low
 
+def circmean2(samples, high=2*pi, low=0, axis=None):
+    samples, ang = _circfuncs_common(samples, high, low)
+    x=np.sin(samples)
+    y=np.cos(samples)
+
+    N=len(samples)
+    X=np.sin(samples).sum()/N
+    Y=np.cos(samples).sum()/N
+    r=(X**2+Y**2)**.5
+    return np.arctan2(X,Y)
 
 def circvar(samples, high=2*pi, low=0, axis=None):
     """
